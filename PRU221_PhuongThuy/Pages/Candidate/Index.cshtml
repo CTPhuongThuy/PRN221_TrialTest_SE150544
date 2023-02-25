@@ -1,0 +1,100 @@
+﻿@page
+@model CadidateManagement_CaoThiPhuongThuy.Pages.Can.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+@if (ViewBag.Message != null)
+{
+    <div class="alert-danger">@ViewBag.Message</div>
+}
+else
+{
+<h1>Index</h1>
+    <div class="col-md-12">
+        <form class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span class="form-group">
+                <label asp-for="CandidateSearchName" class="control-label">Search by Name or by Date</label>
+                <div class="row">
+                    <input asp-for="CandidateSearchName" class=" col-md-4" />
+                    <input asp-for="CandidateSearchDate" class="col-md-4" type="date" />
+                    <input type="submit" value="Search" class="btn btn-primary col-md-4" />
+                </div>
+
+            </span>
+
+            <span class="form-group">
+
+            </span>
+        </form>
+    </div>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateProfile.First().Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateProfile.First().Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateProfile.First().ProfileShortDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateProfile.First().ProfileUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CandidateProfile.First().Posting)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CandidateProfile) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileShortDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Posting.PostingId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.CandidateId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.CandidateId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.CandidateId">Delete</a>
+            </td>
+        </tr>
+}
+
+    </tbody>
+    </table>
+}
+@{
+        var prevDisabled = !Model.CandidateProfile.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.CandidateProfile.HasNextPage ? "disabled" : ""; 
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.CandidateProfile.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.CandidateProfile.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
